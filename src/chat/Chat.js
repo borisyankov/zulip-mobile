@@ -12,7 +12,7 @@ export default class MainScreen extends React.Component {
 
   render() {
     const { auth, messages, narrow, isFetching, subscriptions,
-      caughtUp, isOnline, twentyFourHourTime, doNarrow, fetchOlder, fetchNewer } = this.props;
+      isOnline, twentyFourHourTime, doNarrow, fetchOlder } = this.props;
 
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
@@ -25,9 +25,7 @@ export default class MainScreen extends React.Component {
           twentyFourHourTime={twentyFourHourTime}
           subscriptions={subscriptions}
           auth={auth}
-          caughtUp={caughtUp}
           fetchOlder={fetchOlder}
-          fetchNewer={fetchNewer}
           doNarrow={doNarrow}
         />
         <ComposeBox onSend={this.sendMessage} />
