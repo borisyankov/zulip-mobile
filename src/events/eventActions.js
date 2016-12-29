@@ -46,7 +46,7 @@ const processEvent = (dispatch, event, getState) => {
       });
       break;
     case 'update_message_flags':
-      console.log('update_message_flags', event);
+      console.log('update_message_flags', event); // eslint-disable-line
       dispatch({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         presence: event.presence,

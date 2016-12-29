@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../common/platform';
+import { Button } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import SidebarRow from './SidebarRow';
 import StreamListContainer from '../streamlist/StreamListContainer';
@@ -23,6 +24,11 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamSidebar extends React.Component {
+
+  handleSearch = (narrow) => {
+    const { pushRoute } = this.props;
+    pushRoute('search');
+  };
 
   render() {
     const { onNarrow } = this.props;
@@ -52,6 +58,11 @@ export default class StreamSidebar extends React.Component {
             name="Mentions"
             icon="md-at"
             onPress={() => onNarrow(specialNarrow('mentioned'))}
+          />
+          <Button
+            secondary
+            text="Search"
+            onPress={this.handleSearch}
           />
           <StreamListContainer onNarrow={onNarrow} />
         </ScrollView>

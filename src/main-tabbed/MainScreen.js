@@ -9,13 +9,15 @@ import AccountContainer from '../account-info/AccountContainer';
 
 export default class MainScreen extends React.Component {
   render() {
+    const { doNarrow } = this.props;
+
     return (
       <ScrollableTabView
         renderTabBar={() => <MainTabBar />}
       >
-        <HomeTab />
-        <StreamListContainer narrow={this.props.narrow} />
-        <UserListContainer />
+        <HomeTab doNarrow={doNarrow} />
+        <StreamListContainer doNarrow={doNarrow} />
+        <UserListContainer doNarrow={doNarrow} />
         <AccountContainer />
       </ScrollableTabView>
     );

@@ -49,7 +49,7 @@ class MainScreenContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+export default connect((state) => ({
   auth: getAuth(state),
   isOnline: state.app.isOnline,
   subscriptions: state.subscriptions,
@@ -60,6 +60,4 @@ const mapStateToProps = (state) => ({
   startReached: state.chat.startReached,
   pointer: getPointer(state),
   streamlistOpened: state.nav.opened,
-});
-
-export default connect(mapStateToProps, boundActions)(MainScreenContainer);
+}), boundActions)(MainScreenContainer);

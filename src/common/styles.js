@@ -12,6 +12,9 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
   },
+  screenWrapper: {
+    padding: 10,
+  },
   navigationCard: {
     backgroundColor: 'white',
     shadowColor: 'transparent',

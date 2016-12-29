@@ -37,7 +37,7 @@ export const apiCall = async (
       timeout = setTimeout(() => {
         throw Error(`Request timed out @ ${route}`);
         // send APP_OFFLINE
-      }, 5000);
+      }, 10000);
     }
 
     const response = await apiFetch(auth, route, params, noTimeout);

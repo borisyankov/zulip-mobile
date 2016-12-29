@@ -12,12 +12,13 @@ import UserListContainer from '../userlist/UserListContainer';
 export default class MainScreen extends React.Component {
 
   render() {
-    const { streamlistOpened, doNarrow } = this.props;
+    const { streamlistOpened, doNarrow, pushRoute } = this.props;
 
     return (
       <Drawer
         content={
           <StreamSidebar
+            pushRoute={pushRoute}
             onNarrow={newNarrow => {
               doNarrow(newNarrow);
               this.streamDrawer.close();
