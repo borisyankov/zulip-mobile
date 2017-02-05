@@ -4,6 +4,7 @@ import styles from './HtmlStyles';
 import cascadingStyles from './HtmlCascadingStyles';
 import HtmlTagSpan from './HtmlTagSpan';
 import HtmlTagA from './HtmlTagA';
+import HtmlTagBr from './HtmlTagBr';
 import HtmlTagLi from './HtmlTagLi';
 import HtmlTagImg from './HtmlTagImg';
 import HtmlTagPre from './HtmlTagPre';
@@ -18,6 +19,7 @@ const specialTags = {
   'p': HtmlTagSpan,
   'code': HtmlTagSpan,
   'a': HtmlTagA,
+  'br': HtmlTagBr,
   'li': HtmlTagLi,
   'img': HtmlTagImg,
   'pre': HtmlTagPre,

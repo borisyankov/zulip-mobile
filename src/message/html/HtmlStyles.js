@@ -29,7 +29,7 @@ export default StyleSheet.create({
     paddingRight: 4,
   },
   code: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f0f0f0',
     borderWidth: 1,
     borderRadius: 3,
     borderColor: '#e5e5e5',
