@@ -1,53 +1,58 @@
 /* @flow */
-import { NavigationExperimental } from 'react-native';
-
 import type { NavigationState, Action } from '../types';
+import { navigateToAccountPicker, navigateBack } from './navActions';
+import AppNavigator from './AppNavigator';
 import {
   INIT_ROUTES,
+  INITIAL_FETCH_COMPLETE,
   ACCOUNT_SWITCH,
-  PUSH_ROUTE,
-  POP_ROUTE,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
-} from '../actionConstants';
+  LOGOUT,
+} from '../constants';
 
-const {
-  StateUtils: NavigationStateUtils,
-} = NavigationExperimental;
+const firstAction = AppNavigator.router.getActionForPathAndParams('loading');
+const tempNavState = AppNavigator.router.getStateForAction(firstAction);
+const secondAction = AppNavigator.router.getActionForPathAndParams('main');
+const initialState = AppNavigator.router.getStateForAction(
+  secondAction,
+  tempNavState,
+);
 
-const initialState: NavigationState = {
-  index: 0,
-  key: 'root',
-  routes: [{
-    key: 'loading',
-    title: 'Loading',
-  }],
-};
+// const initialState = {
+//   index: 0,
+//   routes: [
+//     { key: 'main', routeName: 'main' },
+//     { key: 'loading', routeName: 'loading' },
+//   ],
+// };
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
     case INIT_ROUTES:
-      return NavigationStateUtils.reset(
-        state,
-        action.routes.map(route => ({ key: route }))
-      );
-    case ACCOUNT_SWITCH:
-      return NavigationStateUtils.reset(
-        state,
-        [{ key: 'main' }]
-      );
-    case PUSH_ROUTE: {
-      if (state.routes[state.index].key === action.route) return state;
-      return NavigationStateUtils.push(state, { key: action.route, data: action.data });
-    }
-    case POP_ROUTE:
-      if (state.index === 0 || state.routes.length === 1) return state;
-      return NavigationStateUtils.pop(state);
-    case SET_AUTH_TYPE:
-      return NavigationStateUtils.push(state, { key: action.authType });
-    case LOGIN_SUCCESS:
-      return NavigationStateUtils.reset(state, [{ key: 'main' }]);
-    default:
       return state;
+  //     return StateUtils.reset(
+  //       state,
+  //       action.routes.map(route => ({ key: route }))
+  //     );
+    case ACCOUNT_SWITCH:
+      return state;
+  //     return StateUtils.reset(
+  //       state,
+  //       [{ key: 'main' }]
+  //     );
+    case SET_AUTH_TYPE:
+      return state;
+    case LOGIN_SUCCESS:
+    case INITIAL_FETCH_COMPLETE:
+      return AppNavigator.router.getStateForAction(navigateBack(), state);
+    case LOGOUT: {
+      return AppNavigator.router.getStateForAction(
+        navigateToAccountPicker(),
+        state,
+      );
+    }
+    default:
+      return AppNavigator.router.getStateForAction(action, state);
   }
 };

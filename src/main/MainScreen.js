@@ -29,8 +29,12 @@ export default class MainScreen extends React.Component {
     rightDrawerOpen: false,
   };
 
+  static navigationOptions = {
+    title: 'Welcome',
+  };
+
   render() {
-    const { doNarrow, messages, orientation, pushRoute } = this.props;
+    const { messages, orientation, doNarrow, navigateToAllStreams, navigateToUsers, navigateToSearch } = this.props;
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
     return (
@@ -42,7 +46,8 @@ export default class MainScreen extends React.Component {
         onClose={() => this.setState({ leftDrawerOpen: false })}
         content={
           <StreamSidebar
-            pushRoute={pushRoute}
+            navigateToAllStreams={navigateToAllStreams}
+            navigateToSearch={navigateToSearch}
             onNarrow={newNarrow => {
               doNarrow(newNarrow);
               this.setState({ leftDrawerOpen: false });
@@ -58,6 +63,7 @@ export default class MainScreen extends React.Component {
           onClose={() => this.setState({ rightDrawerOpen: false })}
           content={
             <ConversationsContainer
+              navigateToUsers={navigateToUsers}
               onNarrow={newNarrow => {
                 doNarrow(newNarrow);
                 this.setState({ rightDrawerOpen: false });

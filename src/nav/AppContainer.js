@@ -4,52 +4,47 @@ import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth } from '../account/accountSelectors';
 import { registerAppActivity } from '../utils/activity';
 import { checkCompatibility } from '../api';
-import { getInitialRoutes } from './routingSelectors';
-import Navigation from './Navigation';
+import CompatibilityScreen from '../start/CompatibilityScreen';
 
-class NavigationContainer extends React.PureComponent {
-
+class AppContainer extends React.PureComponent {
   static contextTypes = {
     styles: () => null,
   };
 
-  state = {
-    compatibilityCheckFail: false,
+  compatibilityCheckFail = false;
+
+  handleLayout = event => {
+    const { width, height } = event.nativeEvent.layout;
+    const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
+    this.props.appOrientation(orientation);
   };
 
-  handleLayout = (event) => {
-    const { width, height } = event.nativeEvent.layout;
-    const orientation = (width > height) ? 'LANDSCAPE' : 'PORTRAIT';
-    this.props.appOrientation(orientation);
-  }
+  handleConnectivityChange = isConnected => this.props.appOnline(isConnected);
 
-  handleConnectivityChange = (isConnected) =>
-    this.props.appOnline(isConnected);
-
-  handleAppStateChange = (state) => {
+  handleAppStateChange = state => {
     const { auth, appState } = this.props;
     registerAppActivity(auth, state === 'active');
     appState(state === 'active');
-  }
+  };
 
   handleMemoryWarning = () => {
     // Release memory here
-  }
+  };
 
   componentDidMount() {
-    const { accounts } = this.props;
-    this.props.initRoutes(getInitialRoutes(accounts));
+    // const { accounts } = this.props;
+    // TODO: this.props.initRoutes(getInitialRoutes(accounts));
+
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     // check with server if current mobile app is compatible with latest backend
     // compatibility fails only if server responds with 400 (but not with 200 or 404)
-    checkCompatibility().then(res =>
-      this.setState({ compatibilityCheckFail: res.status === 400 })
-    );
+    checkCompatibility().then(res => this.setState({ compatibilityCheckFail: res.status === 400 }));
   }
 
   componentWillUnmount() {
@@ -58,36 +53,50 @@ class NavigationContainer extends React.PureComponent {
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { needsInitialFetch, auth,
-      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData, pushToken } = nextProps;
+  componentWillMount = () => this.init(this.props);
+
+  componentWillReceiveProps = nextProps => this.init(nextProps);
+
+  init = props => {
+    const {
+      pushToken,
+      needsInitialFetch,
+      auth,
+      fetchEvents,
+      fetchEssentialInitialData,
+      fetchRestOfInitialData,
+    } = props;
+
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
       fetchRestOfInitialData(auth, pushToken);
       fetchEvents(auth);
     }
-  }
+  };
 
   render() {
+    const { compatibilityCheckFail } = this.props;
+
+    if (compatibilityCheckFail) {
+      return <CompatibilityScreen />;
+    }
+    console.log('trying to render AppWithNavigationState');
     return (
       <View style={this.context.styles.screen} onLayout={this.handleLayout}>
-        <Navigation
-          {...this.props}
-          compatibilityCheckFail={this.state.compatibilityCheckFail}
-        />
+        <AppWithNavigationState />
       </View>
     );
   }
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     locale: state.settings.locale,
     needsInitialFetch: state.app.needsInitialFetch,
     accounts: state.accounts,
-    navigation: state.nav,
+    // navigation: state.nav,
     pushToken: state.realm.pushToken,
   }),
   boundActions,
-)(NavigationContainer);
+)(AppContainer);

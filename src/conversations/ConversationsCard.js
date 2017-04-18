@@ -57,7 +57,7 @@ export default class ConversationsCard extends Component {
     );
 
   handleSearchPress = () => {
-    this.props.pushRoute('users');
+    this.props.navigation.navigate('users');
   }
 
   render() {

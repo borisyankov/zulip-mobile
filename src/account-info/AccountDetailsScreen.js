@@ -32,7 +32,8 @@ class AccountDetailsScreen extends Component {
   }
 
   render() {
-    const { auth, fetchMessages, doNarrow, popRoute, orientation } = this.props;
+    const { auth, fetchMessages, doNarrow, navigateBack, orientation } = this.props;
+    const { email, fullName, avatarUrl, status } = this.user;
     const title = {
       text: '{_}',
       values: {
@@ -44,13 +45,13 @@ class AccountDetailsScreen extends Component {
       <Screen title={title}>
         <AccountDetails
           auth={auth}
-          fullName={this.user.fullName}
-          email={this.user.email}
-          avatarUrl={this.user.avatarUrl}
-          status={this.user.status}
+          fullName={fullName}
+          email={email}
+          avatarUrl={avatarUrl}
+          status={status}
           fetchMessages={fetchMessages}
           doNarrow={doNarrow}
-          popRoute={popRoute}
+          navigateBack={navigateBack}
           orientation={orientation}
         />
       </Screen>

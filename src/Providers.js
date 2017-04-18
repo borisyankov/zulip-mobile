@@ -7,7 +7,7 @@ import { IntlProvider } from 'react-intl';
 import '../vendor/intl/intl';
 import messages from './i18n/messages';
 import StylesProvider from './StylesProvider';
-import NavigationContainer from './nav/NavigationContainer';
+import AppContainer from './nav/AppContainer';
 
 require('./i18n/locale');
 
@@ -32,7 +32,7 @@ class Providers extends Component {
           key={theme}
           theme={theme}
         >
-          <NavigationContainer />
+          <AppContainer />
         </StylesProvider>
       </IntlProvider>
     );

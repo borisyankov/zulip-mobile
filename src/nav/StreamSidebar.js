@@ -32,14 +32,13 @@ export default class StreamSidebar extends React.Component {
   };
 
   handleAllStreams = () => {
-    const { pushRoute } = this.props;
-    pushRoute('subscriptions');
-  };
+    console.log('PROPZ', this.props);
+    this.props.navigateToAllStreams();
+    // dispatch(NavigationActions.navigate('subscriptions'));
+  }
 
-  handleSearch = (narrow: Narrow) => {
-    const { pushRoute } = this.props;
-    pushRoute('search');
-  };
+  handleSearch = (narrow) =>
+    this.props.navigateToSearch();
 
   handleSettings = (narrow: Narrow) => {
     const { pushRoute } = this.props;

@@ -50,7 +50,7 @@ class AuthScreen extends React.PureComponent {
   }
 
   handleTypeSelect = (authType: string) => {
-    const { realm } = this.props;
+    const { realm, navigateToAuth } = this.props;
 
     if (authType === 'google') {
       // Google OAuth flow
@@ -61,7 +61,7 @@ class AuthScreen extends React.PureComponent {
     } else {
       // Password auth flow
       this.props.setAuthType(authType);
-      this.props.pushRoute(authType);
+      navigateToAuth(authType);
     }
   }
 
