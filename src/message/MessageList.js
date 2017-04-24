@@ -8,6 +8,7 @@ import { LoadingIndicator } from '../common';
 import { queueMarkAsRead } from '../api';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
+import MessageActionSheet from './MessageActionSheet';
 
 const styles = StyleSheet.create({
   list: {
@@ -18,9 +19,24 @@ const styles = StyleSheet.create({
 export default class MessageList extends React.PureComponent {
   autoScrollToBottom = false;
 
+  constructor() {
+    super();
+    this.state = {
+      longPressedMessage: null,
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
   }
+
+  openMessageActionSheet = (longPressedMessage) => {
+    this.setState({ longPressedMessage });
+  };
+
+  closeMessageActionSheet = () => {
+    this.setState({ longPressedMessage: null });
+  };
 
   onScroll = e => {
     if (!e.visibleIds) {
@@ -40,8 +56,21 @@ export default class MessageList extends React.PureComponent {
   };
 
   render() {
-    const { caughtUp, fetching, fetchOlder, fetchNewer, singleFetchProgress } = this.props;
-    const messageList = renderMessages(this.props);
+    const {
+      caughtUp, fetching, fetchOlder, fetchNewer, singleFetchProgress, auth,
+      doNarrow, subscriptions, messages, narrow, mute
+    } = this.props;
+
+    const args = {
+      'auth': auth,
+      'subscriptions': subscriptions,
+      'messages': messages,
+      'narrow': narrow,
+      'mute': mute,
+      'doNarrow': doNarrow,
+      'onleLongPress': this.openMessageActionSheet
+    };
+    const messageList = renderMessages(args);
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
@@ -77,6 +106,14 @@ export default class MessageList extends React.PureComponent {
         <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
+
+        <MessageActionSheet
+          doNarrow={doNarrow}
+          auth={auth}
+          message={this.state.longPressedMessage}
+          show={this.state.longPressedMessage !== null}
+          close={this.closeMessageActionSheet}
+        />
       </InfiniteScrollView>
     );
   }

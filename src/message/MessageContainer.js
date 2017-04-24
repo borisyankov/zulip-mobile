@@ -2,7 +2,6 @@ import React from 'react';
 import htmlparser from 'htmlparser2';
 
 import renderHtmlChildren from './html/renderHtmlChildren';
-import { narrowFromMessage } from '../utils/narrow';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 
@@ -18,9 +17,9 @@ const htmlToDomTree = html => {
 
 export default class MessageContainer extends React.PureComponent {
 
-  handlePress = () => {
-    const { message, doNarrow } = this.props;
-    doNarrow(narrowFromMessage(message), message.id);
+  onLongPress = () => {
+    const { message, onLongPress } = this.props;
+    onLongPress(message);
   }
 
   render() {
@@ -35,7 +34,7 @@ export default class MessageContainer extends React.PureComponent {
         twentyFourHourTime={twentyFourHourTime}
         selfEmail={auth.email}
         doNarrow={doNarrow}
-        onPress={this.handlePress}
+        onLongPress={this.onLongPress}
       >
         {renderHtmlChildren({ childrenNodes: dom, auth })}
       </MessageComponent>
