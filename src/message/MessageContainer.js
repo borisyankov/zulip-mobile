@@ -21,6 +21,7 @@ const htmlToDomTree = html => {
 };
 
 export default class MessageContainer extends React.PureComponent {
+
   handlePress = () => {
     const { message, doNarrow } = this.props;
     doNarrow(narrowFromMessage(message), message.id);
@@ -40,6 +41,11 @@ export default class MessageContainer extends React.PureComponent {
       href,
     );
 
+  onLongPress = () => {
+    const { message, onLongPress } = this.props;
+    onLongPress(message);
+  }
+
   render() {
     const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
@@ -52,7 +58,7 @@ export default class MessageContainer extends React.PureComponent {
         twentyFourHourTime={twentyFourHourTime}
         selfEmail={auth.email}
         doNarrow={doNarrow}
-        onPress={this.handlePress}
+        onLongPress={this.onLongPress}
       >
         {renderHtmlChildren({ childrenNodes: dom, auth, onPress: this.handleLinkPress })}
       </MessageComponent>
