@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import { IconWarning } from '../common/Icons';
+import { Label } from '../common';
 
 const styles = StyleSheet.create({
   block: {
@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 8,
-    backgroundColor: 'yellow',
+    backgroundColor: '#FD3D26',
   },
   text: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 14,
+    color: 'white'
   }
 });
 
@@ -21,14 +21,10 @@ export default class OfflineNotice extends React.Component {
   render() {
     return (
       <View style={styles.block}>
-        <IconWarning
-          style={styles.icon}
-          size={20}
-          color="black"
+        <Label
+          style={styles.text}
+          text="No Internet connection"
         />
-        <Text style={styles.text}>
-          You are currently offline
-        </Text>
       </View>
     );
   }
