@@ -1,6 +1,8 @@
 package com.zulipmobile;
 
 import com.facebook.react.ReactActivity;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 import com.smixx.fabric.FabricPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 

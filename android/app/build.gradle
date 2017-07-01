@@ -154,6 +154,8 @@ repositories {
 
 
 dependencies {
+    compile project(':react-native-notifications')
+    compile project(':react-native-custom-tabs')
     compile project(':@remobile/react-native-toast')
     compile project(':react-native-photo-view')
     compile project(':react-native-fetch-blob')

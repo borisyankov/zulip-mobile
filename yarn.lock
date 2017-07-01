@@ -5232,6 +5232,10 @@ react-native-cli@^2.0.1:
     prompt "^0.2.14"
     semver "^5.0.3"
 
+react-native-custom-tabs@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-custom-tabs/-/react-native-custom-tabs-0.1.5.tgz#d2d6ab72b3aad59ac82dfaabf5278f1bca565b63"
+
 react-native-device-info@^0.10.1:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.10.2.tgz#350cd68ed43839022ddea0a3a423439f16fa4fba"

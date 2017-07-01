@@ -55,6 +55,7 @@ public class MainApplication extends Application implements ReactApplication, IN
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
                     new ZulipNativePackage(),
+                    new CustomTabsPackage(),
                     new RNNotificationsPackage(MainApplication.this)
             );
         }
