@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
-import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import { Screen, ErrorMsg, ZulipButton } from '../common';
 import { getServerSettings } from '../api';
 import { fixRealmUrl } from '../utils/url';
+import RealmPicker from './RealmPicker';
 
 type Props = {
   actions: Actions,
@@ -20,14 +21,7 @@ type State = {
 };
 
 const componentStyles = StyleSheet.create({
-  spacer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginLeft: -16,
-    marginRight: -16,
-    marginBottom: -16,
-  },
+  container: {},
 });
 
 class RealmScreen extends PureComponent {
@@ -80,23 +74,11 @@ class RealmScreen extends PureComponent {
           centerContent
           keyboardShouldPersistTaps="always"
         >
-          <Label text="Your server URL" />
-          <Input
-            style={styles.field}
-            autoFocus
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Server URL"
-            defaultValue={realm}
-            onChangeText={value => this.setState({ realm: value })}
-            blurOnSubmit={false}
-            keyboardType="url"
-            onSubmitEditing={this.tryRealm}
-          />
-          {error && <ErrorMsg error={error} />}
-          <View style={componentStyles.spacer}>
-            <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
-          </View>{' '}
+          <View style={[styles.container, componentStyles.container]}>
+            <RealmPicker onChangeText={value => this.setState({ realm: value })} />
+            <ZulipButton text="Enter" progress={progress} onPress={this.tryRealm} />
+            {error && <ErrorMsg error={error} />}
+          </View>
         </ScrollView>
       </Screen>
     );
