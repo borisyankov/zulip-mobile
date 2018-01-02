@@ -36,6 +36,29 @@ function getMessageIdFromNode(node) {
   return msgNode && msgNode.getAttribute('data-msg-id');
 }
 
+function scrollTo(element, to, duration) {
+  if (duration <= 0) return;
+  var difference = to - element.scrollTop;
+  var perTick = difference / duration * 10;
+
+  setTimeout(function() {
+    element.scrollTop = element.scrollTop + perTick;
+    if (element.scrollTop === to) return;
+    scrollTo(element, to, duration - 10);
+  }, 10);
+}
+
+function animatedScrollBy(element, by, duration) {
+  alert('scroll ' + by + ' ' + duration);
+  var step = by / (duration / 16);
+  var cur = Math.abs(by);
+  var interval = setInterval(function() {
+    cur -= step;
+    window.scrollBy(0, step);
+    if (cur <= 0) clearInterval(interval);
+  }, 16);
+}
+
 function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
 }
@@ -61,7 +84,7 @@ window.addEventListener('resize', function(event) {
     difference > 0 ||
     document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
   ) {
-    window.scrollBy(0, difference);
+    animatedScrollBy(window, difference, 1000);
   }
   height = document.body.clientHeight;
 });

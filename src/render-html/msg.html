@@ -1673,6 +1673,16 @@ function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+function animatedScrollBy(element, by, duration) {
+  var step = by / (duration / 16);
+  var cur = Math.abs(by);
+  var interval = setInterval(function() {
+    cur -= step;
+    window.scrollBy(0, step);
+    if (cur <= 0) clearInterval(interval);
+  }, 16);
+}
+
 function scrollToBottomIfNearEnd() {
   if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
     scrollToBottom();
@@ -1694,7 +1704,7 @@ window.addEventListener('resize', function(event) {
     difference > 0 ||
     document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
   ) {
-    window.scrollBy(0, difference);
+    animatedScrollBy(difference, 300);
   }
   height = document.body.clientHeight;
 });
@@ -1786,5 +1796,9 @@ document.body.addEventListener('click', function(e) {
 
   return false;
 });
+
+
+console.log('ANIMATE');
+animatedScrollBy(window, 2000, 300);
 
 </script>
