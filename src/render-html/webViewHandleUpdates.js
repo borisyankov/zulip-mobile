@@ -1,32 +1,20 @@
 /* @flow */
-import type { Actions, Auth, Narrow, TypingState } from '../types';
+import type { Props } from '../message/MessageListContainer';
 import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
-
-type Props = {
-  actions: Actions,
-  auth: Auth,
-  isFetching: boolean,
-  fetchingOlder: boolean,
-  fetchingNewer: boolean,
-  renderedMessages: Object[],
-  anchor: number,
-  narrow?: Narrow,
-  typingUsers?: TypingState,
-};
 
 let previousContent = '';
 
 export default (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
   if (
-    prevProps.fetchingOlder !== nextProps.fetchingOlder ||
-    prevProps.fetchingNewer !== nextProps.fetchingNewer
+    prevProps.fetching.older !== nextProps.fetching.older ||
+    prevProps.fetching.newer !== nextProps.fetching.newer
   ) {
     sendMessage({
       type: 'fetching',
       isFetching: nextProps.isFetching && nextProps.messages.length === 0,
-      fetchingOlder: nextProps.fetchingOlder,
-      fetchingNewer: nextProps.fetchingNewer,
+      fetchingOlder: nextProps.fetching.older,
+      fetchingNewer: nextProps.fetching.newer,
     });
   }
 

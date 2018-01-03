@@ -1,3 +1,4 @@
+/* @noflow */
 /* eslint-disable no-alert */
 
 window.onerror = (message, source, line, column, error) => {

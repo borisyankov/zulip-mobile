@@ -31,7 +31,7 @@ import {
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
 
-type Props = {
+export type Props = {
   actions: Actions,
   anchor: number,
   auth: Auth,
@@ -45,7 +45,7 @@ type Props = {
   renderedMessages: any,
   subscriptions: Subscription[],
   narrow: Narrow,
-  listRef: () => void,
+  listRef: (component: any) => void,
   onReplySelect: () => void,
   onSend: () => void,
 };
@@ -64,15 +64,13 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   render() {
-    const { fetching, onReplySelect, htmlMessages } = this.props;
+    const { onReplySelect, htmlMessages } = this.props;
 
     const MessageListComponent = htmlMessages ? MessageListWeb : MessageList;
 
     return (
       <MessageListComponent
         {...this.props}
-        fetchingOlder={fetching.older}
-        fetchingNewer={fetching.newer}
         onReplySelect={onReplySelect}
         onScroll={this.handleMessageListScroll}
       />

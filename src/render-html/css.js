@@ -222,7 +222,7 @@ th, td {
 }
 blockquote {
   margin: 0.5em 0;
-  border-left: 5px solid #ddd;
+  border-left: 1px solid rgba(127, 127, 127, 0.75);
 }
 ul {
   padding-left: 1em;
