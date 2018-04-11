@@ -132,6 +132,36 @@ describe('chatReducers', () => {
     });
   });
 
+  test('if new message is private or group add it to the "allPrivate" narrow', () => {
+    const groupNarrowStr = JSON.stringify(groupNarrow(['a@a.com', 'b@b.com']));
+    const initialState = deepFreeze({
+      [allPrivateNarrowStr]: [],
+      [JSON.stringify(groupNarrow(['a@a.com', 'b@b.com']))]: [],
+    });
+    const message = {
+      id: 1,
+      type: 'private',
+      display_recipient: [{ email: 'me@example.com' }, { email: 'a@a.com' }, { email: 'b@b.com' }],
+    };
+    const action = deepFreeze({
+      type: EVENT_NEW_MESSAGE,
+      message,
+      ownEmail: 'me@example.com',
+      caughtUp: {
+        [allPrivateNarrowStr]: { older: true, newer: true },
+        [groupNarrowStr]: { older: true, newer: true },
+      },
+    });
+    const expectedState = {
+      [allPrivateNarrowStr]: [message],
+      [groupNarrowStr]: [message],
+    };
+
+    const actualState = chatReducers(initialState, action);
+
+    expect(actualState).toEqual(expectedState);
+  });
+
   test('appends same id message to state', () => {
     const initialState = deepFreeze({
       [homeNarrowStr]: [
