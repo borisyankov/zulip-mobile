@@ -247,6 +247,7 @@ const messageHandlers = {
 
 // $FlowFixMe
 document.addEventListener('message', e => {
+  document.getElementById('js-error').innerHTML = JSON.parse(e.data).type;
   scrollEventsDisabled = true;
   // $FlowFixMe
   const messages: WebviewInputMessage[] = JSON.parse(e.data);
@@ -384,3 +385,5 @@ const waitForBridge = () => {
   }
 };
 waitForBridge();
+
+document.getElementById('js-error').innerHTML = 'Loaded';

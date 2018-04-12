@@ -30,6 +30,7 @@ export default class MessageListWeb extends Component<Props> {
   sendMessages = (messages: WebviewInputMessage[]): void => {
     if (this.webview && messages.length > 0) {
       this.webview.postMessage(JSON.stringify(messages), '*');
+      console.log('!!! SEND MESAGE', this.isReady, messages);
     }
   };
 
@@ -37,9 +38,11 @@ export default class MessageListWeb extends Component<Props> {
     const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
       this.isReady = true;
+      console.log('!!! READY EVENT');
       this.sendMessages(this.unsentMessages);
     } else {
       const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
+      console.log('!!! HANDLE EVENT', handler, this.props, eventData);
       webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe
     }
   };
@@ -48,8 +51,10 @@ export default class MessageListWeb extends Component<Props> {
     const messages = getInputMessages(this.props, nextProps);
 
     if (this.isReady) {
+      console.log('!!! SEND MESSAGES', messages);
       this.sendMessages(messages);
     } else {
+      console.log('!!! QUEUE MESSAGES', messages);
       this.unsentMessages.push(...messages);
     }
 
@@ -59,6 +64,7 @@ export default class MessageListWeb extends Component<Props> {
   render() {
     const { styles, theme } = this.context;
     const { anchor, auth, showMessagePlaceholders, debug } = this.props;
+    console.log('!?!?! MessageListWeb.render', this.props);
     const html = getHtml(renderMessagesAsHtml(this.props), theme, {
       anchor,
       highlightUnreadMessages: debug.highlightUnreadMessages,

@@ -102,5 +102,6 @@ export const findAnchor = (
   mute: MuteState,
 ) => {
   const firstUnreadMessage = findFirstUnread(messages, flags, subscriptions, mute);
+  console.log('~~~findAnchor', messages, flags, subscriptions, mute, firstUnreadMessage);
   return firstUnreadMessage ? firstUnreadMessage.id : 0;
 };
