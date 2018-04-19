@@ -83,7 +83,7 @@ export type DebugFlagToggleAction = {
   value: string,
 };
 
-export type DebugFlagToggleActionCreator = (key: string, value: any) => DebugFlagToggleAction;
+export type DebugFlagToggleActionCreator = (key: string, value: string) => DebugFlagToggleAction;
 
 export type NavigateAction = Object;
 export type NavigateActionCreator = () => NavigateAction;
