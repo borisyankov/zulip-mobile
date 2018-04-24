@@ -67,7 +67,11 @@ export const getMessageUpdateStrategy = (transitionProps: TransitionProps): Upda
     return 'replace';
   } else if (transitionProps.noNewMessages) {
     return 'preserve-position';
-  } else if (!transitionProps.sameNarrow || transitionProps.allNewMessages) {
+  } else if (
+    !transitionProps.sameNarrow ||
+    transitionProps.allNewMessages ||
+    transitionProps.messagesReplaced
+  ) {
     return 'scroll-to-anchor';
   } else if (transitionProps.onlyOneNewMessage) {
     return 'scroll-to-bottom-if-near-bottom';
