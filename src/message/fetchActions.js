@@ -11,7 +11,7 @@ import type {
   InitialFetchStartAction,
   InitialFetchCompleteAction,
 } from '../types';
-import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
+import { getMessages, getStreams, registerForEvents, uploadFile, getUserGroups } from '../api';
 import {
   getAuth,
   getSession,
@@ -196,6 +196,8 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
     refreshNotificationToken();
   }
   dispatch(trySendMessages());
+  console.log('~~~ fetching man');
+  console.log('~~~', await getUserGroups(auth));
 };
 
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
