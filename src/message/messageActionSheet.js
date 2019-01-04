@@ -51,7 +51,7 @@ const deleteMessage = async ({ auth, message, dispatch }) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
-    api.deleteMessage(auth, message.id);
+    api.updateMessage(auth, message.id, { content: '' });
   }
 };
 deleteMessage.title = 'Delete message';
