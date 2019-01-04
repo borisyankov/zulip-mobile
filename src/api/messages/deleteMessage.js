@@ -1,8 +1,10 @@
 /* @flow strict-local */
 import type { ApiResponse, Auth } from '../apiTypes';
-import { apiPatch } from '../apiFetch';
+import { apiDelete } from '../apiFetch';
 
+/**
+ * See https://zulipchat.com/api/delete-message
+ * Note: The requesting user must be an administrator.
+ */
 export default async (auth: Auth, id: number): Promise<ApiResponse> =>
-  apiPatch(auth, `messages/${id}`, {
-    content: '',
-  });
+  apiDelete(auth, `messages/${id}`);
