@@ -2,6 +2,13 @@
 import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPatch } from '../apiFetch';
 
+type UpdateMessageParams = {
+  message_id?: number,
+  topic_name?: string,
+  propagate_mode?: 'change_one' | 'change_later' | 'change_all',
+  content?: string,
+};
+
 /** See https://zulipchat.com/api/update-message */
-export default async (auth: Auth, content: Object, id: number): Promise<ApiResponse> =>
-  apiPatch(auth, `messages/${id}`, content);
+export default async (auth: Auth, params: UpdateMessageParams, id: number): Promise<ApiResponse> =>
+  apiPatch(auth, `messages/${id}`, params);
