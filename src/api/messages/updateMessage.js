@@ -10,5 +10,5 @@ type UpdateMessageParams = {
 };
 
 /** See https://zulipchat.com/api/update-message */
-export default async (auth: Auth, params: UpdateMessageParams, id: number): Promise<ApiResponse> =>
+export default async (auth: Auth, id: number, params: UpdateMessageParams): Promise<ApiResponse> =>
   apiPatch(auth, `messages/${id}`, params);
