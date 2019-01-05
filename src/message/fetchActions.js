@@ -25,6 +25,7 @@ import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
+import { logout } from '../account/accountActions';
 
 const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -162,14 +163,20 @@ const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) =>
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
-  const initData = await tryUntilSuccessful(() =>
-    registerForEvents(auth, {
-      fetch_event_types: config.serverDataOnStartup,
-      apply_markdown: true,
-      include_subscribers: false,
-      client_gravatar: true,
-    }),
-  );
+  let initData;
+  try {
+    initData = await tryUntilSuccessful(() =>
+      registerForEvents(auth, {
+        fetch_event_types: config.serverDataOnStartup,
+        apply_markdown: true,
+        include_subscribers: false,
+        client_gravatar: true,
+      }),
+    );
+  } catch (e) {
+    dispatch(logout());
+    return;
+  }
 
   dispatch(realmInit(initData));
   dispatch(fetchTopMostNarrow());
