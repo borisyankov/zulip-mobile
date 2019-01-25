@@ -159,7 +159,7 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
   }
 };
 
-const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
+export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
@@ -191,11 +191,6 @@ const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) =>
   }
 
   dispatch(sendOutbox());
-};
-
-export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(fetchInitialData());
-
   dispatch(initNotifications());
   dispatch(reportPresence());
   setInterval(() => dispatch(reportPresence()), 60 * 1000);
