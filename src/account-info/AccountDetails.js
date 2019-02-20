@@ -40,13 +40,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
 
     return (
       <View>
-        <Avatar
-          avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
-          name={user.full_name}
-          email={user.email}
-          size={screenWidth}
-          shape="square"
-        />
+        <Avatar user={user} size={screenWidth} shape="square" />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
           <View style={componentStyles.statusWrapper}>
             <PresenceStatusIndicator email={user.email} hideIfOffline={false} />

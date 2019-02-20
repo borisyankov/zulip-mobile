@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, User } from '../types';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import { getFullUrl } from '../utils/url';
@@ -25,9 +25,7 @@ type PropsFromConnect = {|
 
 type Props = {|
   ...PropsFromConnect,
-  avatarUrl: ?string,
-  email: string,
-  name: string,
+  user: User,
   size: number,
   shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,
@@ -45,28 +43,21 @@ type Props = {|
  */
 class Avatar extends PureComponent<Props> {
   static defaultProps = {
-    avatarUrl: '',
-    email: '',
-    name: '',
     size: 32,
     realm: '',
     shape: 'rounded',
   };
 
   render() {
-    const { avatarUrl, email, name, size, onPress, realm, shape } = this.props;
+    const { user, size, onPress, realm, shape } = this.props;
     const fullAvatarUrl =
-      typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
+      typeof user.avatar_url === 'string'
+        ? getFullUrl(user.avatar_url, realm)
+        : getGravatarFromEmail(user.email);
 
     return (
-      <ImageAvatar
-        name={name}
-        avatarUrl={fullAvatarUrl}
-        size={size}
-        onPress={onPress}
-        shape={shape}
-      >
-        <PresenceStatusIndicator style={componentStyles.status} email={email} hideIfOffline />
+      <ImageAvatar avatarUrl={fullAvatarUrl} size={size} onPress={onPress} shape={shape}>
+        <PresenceStatusIndicator style={componentStyles.status} email={user.email} hideIfOffline />
       </ImageAvatar>
     );
   }
