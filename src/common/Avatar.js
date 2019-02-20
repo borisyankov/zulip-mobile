@@ -7,7 +7,6 @@ import { StyleSheet } from 'react-native';
 import type { GlobalState } from '../types';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
-import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
 import { getGravatarFromEmail } from '../utils/avatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
@@ -55,10 +54,9 @@ class Avatar extends PureComponent<Props> {
     const { avatarUrl, email, name, size, onPress, realm, shape } = this.props;
     const fullAvatarUrl =
       typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
-    const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
 
     return (
-      <AvatarComponent
+      <ImageAvatar
         name={name}
         avatarUrl={fullAvatarUrl}
         size={size}
@@ -66,7 +64,7 @@ class Avatar extends PureComponent<Props> {
         shape={shape}
       >
         <PresenceStatusIndicator style={componentStyles.status} email={email} hideIfOffline />
-      </AvatarComponent>
+      </ImageAvatar>
     );
   }
 }
