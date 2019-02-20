@@ -19,24 +19,27 @@ const componentStyles = StyleSheet.create({
   },
 });
 
+type PropsFromConnect = {|
+  realm: string,
+|};
+
 type Props = {|
+  ...PropsFromConnect,
   avatarUrl: ?string,
   email: string,
   name: string,
   size: number,
-  realm: string,
   shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,
 |};
 
 /**
- * Renders an image if avatarUrl is proved, a text avatar otherwise
+ * Renders a user's avatar incuding their presence indicator
  *
  * @prop [avatarUrl] - Absolute or relative url to an avatar image.
  * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
  * @prop [name] - User's full name.
  * @prop [size] - Sets width and height in pixels.
- * @prop [realm] - Current realm url, used if avatarUrl is relative.
  * @prop [shape] - One of 'square', 'rounded', 'circle'.
  * @prop [onPress] - Event fired on pressing the component.
  */
