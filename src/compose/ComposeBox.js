@@ -10,7 +10,7 @@ import type {
   EditMessage,
   InputSelection,
   UserOrBot,
-  Dispatch,
+  InjectedDispatch,
   Dimensions,
 } from '../types';
 import { connect } from '../react-redux';
@@ -61,7 +61,7 @@ type SelectorProps = {|
 type Props = {|
   narrow: Narrow,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

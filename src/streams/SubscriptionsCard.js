@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Dispatch, Narrow, Subscription, GlobalState } from '../types';
+import type { InjectedDispatch, Narrow, Subscription, GlobalState } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   narrow: Narrow,
   subscriptions: Subscription[],
   unreadByStream: number[],
