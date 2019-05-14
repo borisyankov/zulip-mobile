@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 import type { ApiResponseError } from './transportTypes';
 
 export class EventQueueError extends Error {
@@ -20,3 +20,10 @@ export class EventQueueError extends Error {
  */
 export const isErrorBadEventQueueId = (e: EventQueueError): boolean =>
   e.data !== undefined && e.data.code !== undefined && e.data.code === 'BAD_EVENT_QUEUE_ID';
+
+/**
+ * Is exception caused by a Client Error (4xx)?
+ * ???
+ */
+export const isClientError = (e: EventQueueError): boolean =>
+  e.httpStatus !== undefined && e.httpStatus >= 400 && e.httpStatus <= 499;
