@@ -33,8 +33,16 @@ export type ApiErrorCode =
   | 'INVITATION_FAILED'
   | 'INVALID_ZULIP_SERVER';
 
+/**
+ * Response from API in case of an error.
+ *
+ * @prop [code] - Should exist in properly formed error, marked as optional
+ *   to reflect the unpredictabile behavior of a misbehaving back-end.
+ * @prop [queue_id] - Available only when this is an error by an event queue.
+ */
 export type ApiResponseError = {|
   code?: ApiErrorCode,
+  queue_id?: string,
   msg: string,
   result: 'error',
 |};
